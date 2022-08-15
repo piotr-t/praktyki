@@ -2,12 +2,12 @@
   <div class="col-8">
     <div class="row">
       <p>Login/Email</p>
-      <input #login type="text" class="col">
+      <input type="text" class="col" [formControl]="login">
       <p>Emiail</p>
-      <input #email type="text">
+      <input type="text" [formControl]="email">
       <p>Password</p>
-      <input #password type="text" class="col">
-      <button (click)="savee(login, email, password)" >Zapisz</button>
+      <input type="text" class="col" [formControl]="password">
+      <button (click)="savee()" >Zapisz</button>
     </div>
   </div>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/Home/app.service';
 
@@ -9,15 +10,20 @@ import { AppService } from 'src/app/Home/app.service';
 })
 export class RegisterComponent implements OnInit {
 
+
+  login = new FormControl('user1');
+  email = new FormControl('user1@gmail.com');
+  password = new FormControl('1234');
+
   constructor(private router: Router, private appService: AppService) { }
 
-  savee(login, email, password): void{
-    this.appService.setUser(login.value, email.value, password.value).subscribe((a: any) => {
+  savee(): void{
+    this.appService.setUser(this.login.value, this.email.value, this.password.value).subscribe((a: any) => {
       // sessionStorage.setItem('login', login.value);
       // sessionStorage.setItem('token', password.value);
      // this.router.navigate(['admin']);
      console.log(a);
-    }); // .subscibe();
+    });
   }
 
   ngOnInit(): void {
