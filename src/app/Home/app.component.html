@@ -1,0 +1,14 @@
+<button (click)="add()">Add </button>
+<div appAddSort  style="background-color:chartreuse">
+  <app-sort-up style="background-color:chartreuse"></app-sort-up>
+  Lorem ipsum dolor est</div>
+
+
+<div *ngFor="let dd of data">
+  <div>{{dd.id}}</div><div>{{dd.ok}}</div>
+  </div>
+
+  <button routerLink="/admin">Admin</button>
+  <button routerLink="/admin">LogOut</button>
+
+<router-outlet></router-outlet>

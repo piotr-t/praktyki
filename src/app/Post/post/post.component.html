@@ -1,0 +1,32 @@
+<div class="row g-0 m-0 no-gutters justify-content-center">
+  <div class="col-7 tac" *ngFor="let item of posts">
+    <div class="row g-0 m-0 no-gutters">
+      <p class="display-6">
+        {{item?.title}}
+      </p>
+      <img [src]="item.imageURL" alt="" class="p-2">
+      <ng-container  *ngFor="let comment of comments">
+        <p  class="text-success" *ngIf="item?._id === comment?.postID">{{comment.text}}</p>
+      </ng-container>
+      <input type="text" #comm>
+      <p class="addComment" (click)="dodajComent(comm, item?._id)" >Dodaj</p>
+    </div>
+
+
+  </div>
+</div>
+<div class="row g-0 m-0 no-gutters justify-content-center">
+  <div class="col-6 m-5">
+    <div class="row m-2">
+      <input #inp1 type="text" value = "działa" >
+    </div>
+    <div class="row m-2">
+      <input #file type="file" accept=".png, .jpg">
+    </div>
+    <div class="row m-2">
+      <button type="text" (click)="add(file, inp1)">dodaj</button>
+    </div>
+  </div>
+
+
+</div>
