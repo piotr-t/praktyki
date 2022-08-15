@@ -1,13 +1,18 @@
 var express = require('express');
 var router = express.Router();
 const dbInstance = require("../database");
-const multer  = require('multer');
+//const upload = require('../multerConfig')
+//const userMiddleware = require('./middlewares/tables.middleware');
 
+//router.use(userMiddleware);
+
+const multer  = require('multer');
 
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/')
+    console.log(file)
+    cb(null, './public/uploads')
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -20,30 +25,28 @@ const storage = multer.diskStorage({
 
 
 
-const upload = multer({ storage: storage })
+const upload = multer({ storage: storage,
+  limits: {
+    // Setting Image Size Limit to 2MBs
+    fileSize: 20000000
+}
+});
 
 
-router.use(async (req, res, next)=>{
+
+router.post('/image', upload.single('file'), async  function(req, res, next) {
   const db = await dbInstance();
-  const body = req.body;
-  if(body.token){
-    const response = await db.collection('posts').find({token:body.token}).toArray();
-    console.log(response,'responseks')
-    next()
-  }else{
-    res.send({res:'brak tokenu'})
-  }
+
+    const filename = req.file1;
+    console.log(filename,'filename')
+    const post = {authorID: 0, title: req.body.file1, imageURL: "http://localhost:3800/uploads/" + req.file.filename}
+    await db.collection('posts').insertOne(post);
+    const response = await db.collection('posts').find().toArray(); 
+    res.json(response);
 
 
-})
 
-
-router.post('/image', upload.single('file'),async  function(req, res, next) {
-  const db = await dbInstance();
-  const post = {authorID: 0, title: req.body.file1, imageURL: "http://localhost:3800/" + req.file.filename}
-  await db.collection('posts').insertOne(post);
-  const response = await db.collection('posts').find().toArray();
-  res.json(response);
+  
 });
 
 
