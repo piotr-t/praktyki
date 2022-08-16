@@ -11,10 +11,11 @@ const routes: Routes = [{path: 'admin', canActivate: [AdminGuard ], canLoad: [Ad
   loadChildren: () => import('./../Login/login.module').then(m => m.LoginModule)
 },
 {path: 'posts' , component: PostComponent},
-{path: '**' , component: LoginComponent, canActivate: [LoginCanActivateGuard], canLoad: [LoginCanActivateGuard]}];
+{path: '**' , component: LoginComponent, canActivate: [LoginCanActivateGuard], canLoad: [LoginCanActivateGuard]}
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: true }) ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

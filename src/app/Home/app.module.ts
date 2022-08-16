@@ -15,6 +15,7 @@ import { AdminGuard } from '../admin/admin.guard';
 import { EditDirective } from './edit.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PostModule } from '../Post/post.module';
+import { PostRoutingModule } from '../Post/post-routing.module';
 
 @NgModule({
   declarations: [
@@ -30,8 +31,10 @@ import { PostModule } from '../Post/post.module';
     HttpClientModule,
     LoginModule,
     NgbModule,
-    PostModule
-    // LoginRoutingModule,
+    PostRoutingModule,
+    PostModule,
+
+
     // AdminRoutingModule,
     // AdminModule
   ],
