@@ -16,14 +16,14 @@ router.post('/setUser',async function(req, res, next) {
   res.json({login:user.login, token: user.token});
 });
 
-
+//log in user
 router.post('/login',async function(req, res, next) {//login, token, password
   const db = await dbInstance();
   const token = Date.now() + '-' + Math.round(Math.random() * 1E9);
   const login = req.body.login;
   const password = req.body.password;
   let response = await  db.collection('users').findOne({password: password, $or:[{login: login}, {email: login}]},{});
-  res.json(response ? {token: token,...response} : null);
+  res.json(response ? {...response,token: token} : null);
 
 
 });
