@@ -7,12 +7,6 @@ const multer  = require('multer');
 var path = require('path');
 
 
-//const upload = require('../multerConfig')
-//const userMiddleware = require('./middlewares/tables.middleware');
-
-//router.use(userMiddleware);
-
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './public/uploads')
@@ -28,11 +22,7 @@ const storage = multer.diskStorage({
 
 
 
-const upload = multer({ storage: storage,
-  limits: {
-    // Setting Image Size Limit to 2MBs
-    //fileSize: 20000000
-}
+const upload = multer({ storage: storage
 });
 
 
@@ -40,9 +30,10 @@ const upload = multer({ storage: storage,
 router.post('/image', upload.single('file'), async  function(req, res, next) {
   const db = await dbInstance();
 
-    const filename = req.file1;
+    const filename = req.body.file1;
+    const autorId = req.body.autorId;
     console.log(filename,'filename')
-    const post = {authorID: 0, title: req.body.file1, imageURL: "http://localhost:3800/uploads/" + req.file.filename}
+    const post = {authorID: autorId, title: filename, imageURL: "http://localhost:3800/uploads/" + req.file.filename}
     await db.collection('posts').insertOne(post);
     const response = await db.collection('posts').find().toArray(); 
     res.json(response);
@@ -86,7 +77,7 @@ router.delete('/', async(req,res, next) => {
   const id = req.body.id;
     let filename = await db.collection('posts').findOne({ _id: ObjectId(id)});
     filename = filename.imageURL.substr(30);
-    fs.unlink('./public/uploads/' + filename, (err) => {if (err) {console.error(err); return}})
+    fs.unlink('./public/uploads/' + filename, (err) => {if (err) {return}})
   await db.collection('posts').deleteOne({ _id: ObjectId(id)});
   const response = await db.collection('posts').find().toArray();
   res.json(response);

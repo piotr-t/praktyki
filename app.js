@@ -13,6 +13,9 @@ var ConfigColumnsRouter = require('./routes/ConfigColumns');
 var clientsRouter = require('./routes/clients');
 var commentsRouter = require('./routes/comments');
 
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/praktyki');
+
 
 
 
@@ -37,6 +40,35 @@ app.use(cors());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+const passport = require ('passport');
+const passportJWT = require ('passport-jwt');
+const User = require('./models/userModel')
+
+const JWTStrategy = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
+
+
+/* function verifyCallback(payload, done) {
+    return User.findOne({_id: payload.id})
+        .then(user => {
+            return done(null, user);
+        })
+        .catch(err => {
+            return done(err);
+        });
+}
+
+passport.use(new JWTStrategy(config, verifyCallback));  */
+
+
+const config = {
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+  secretOrKey: 'asdf'
+};
+
+
+
+passport.use(User.createStrategy());
 
 
 
@@ -51,7 +83,7 @@ app.use(function (req, res, next) {
 
 
 app.use('/api/categories', categoriesRouter);
-app.use('/api/users', usersRouter);
+app.use('/api/users', usersRouter );
 app.use('/api/products', productsRouter);
 app.use('/api/categories_products', categories_productsRouter);
 app.use('/api/posts', postsRouter);
